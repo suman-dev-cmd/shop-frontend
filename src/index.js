@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter as Router} from 'react-router-dom'
 import {Provider} from 'react-redux'
 import Store from './components/Store'
 import {positions,transitions,Provider as AlertProvider} from 'react-alert'
@@ -15,11 +14,9 @@ const options = {
 }
 ReactDOM.render(
   <Provider store={Store}>
-    <Router>
       <AlertProvider template={AlertTemplate} {...options}>
         <App />
       </AlertProvider>
-    </Router>
   </Provider>,
   document.getElementById('root')
 );

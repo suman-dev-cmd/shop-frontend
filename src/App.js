@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {Switch,Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route } from 'react-router-dom'
 import Header from './components/layouts/Header'
 import Footer from './components/layouts/Footer'
 import Home from './components/Home'
@@ -13,14 +13,20 @@ import Store from './components/Store'
 import Confirm from './components/Confirmorder'
 import './App.css'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 import ProtectedRoute from './route/ProtectedRoute'
 import Payment from './components/Payment'
 import Success from './components/OrderSuccess'
-
+import ListOrders from './components/ListOrders'
+import OrderDetails from './components/OrderDetails'
 // Payment
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
+import Dashboard from './components/admin/Dashboard'
+import ProductsList from './components/admin/ProductList'
+import NewProduct from './components/admin/NewProduct'
+import UpdateProduct from './components/admin/UpdateProduct'
 const App = () => {
   const[stripeApiKey,setStripeApiKey] = useState('')
   useEffect(() => {
@@ -32,11 +38,11 @@ const App = () => {
    }
    getStripApiKey()
   },[])
+  const { user, isAuthenticated, loading } = useSelector(state => state.auth)
   return (
-    <div>
+    <Router>
       <Header/>
-        <div className="container container-fluid">
-          <Switch>
+          <div className="container container-fluid">
             <Route exact path="/" component={Home}/>
             <Route  path="/search/:keyword" component={Home}/>
             <Route  path="/product/:id" component={ProductDetails}/>
@@ -46,15 +52,24 @@ const App = () => {
             <ProtectedRoute  path="/shipping" component={Shipping}/>
             <ProtectedRoute  path="/confirm" component={Confirm}/>
             <ProtectedRoute  path="/success" component={Success}/>
+            <ProtectedRoute  path="/orders/me" component={ListOrders} exact />
+            <ProtectedRoute  path="/order/:id" component={OrderDetails} exact />
             {stripeApiKey &&
             <Elements stripe={loadStripe(stripeApiKey)}>
               <ProtectedRoute path="/payment" component={Payment} />
             </Elements>
           }
-          </Switch>
-        </div>
-      <Footer />
-    </div>
+          </div>
+          
+          <ProtectedRoute  path="/dashboard" isAdmin={true} component={Dashboard}/>
+          <ProtectedRoute  path="/admin/products" isAdmin={true} component={ProductsList}/>
+          <ProtectedRoute path="/admin/product" isAdmin={true} component={NewProduct} exact />
+          <ProtectedRoute path="/admin/product/:id" isAdmin={true} component={UpdateProduct} exact />
+          {!loading && (!isAuthenticated || user.role !== 'admin') && (
+            <Footer />
+          )}
+     
+    </Router>
   )
 }
 

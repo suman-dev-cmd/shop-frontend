@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux'
 
 const ProtectedRoute = ({ isAdmin, component: Component, ...rest }) => {
 
+    console.log(isAdmin)
     const { isAuthenticated, loading, user } = useSelector(state => state.auth)
+    // console.log(user.role)
+
 
     return (
         <Fragment>

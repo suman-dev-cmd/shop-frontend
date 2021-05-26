@@ -5,6 +5,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import {useAlert} from 'react-alert'
 import {logout} from '../../actions/userAction'
 import '../../App.css'
+import Logo from '../../logo.png'
 const Header = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Header = () => {
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
             <Link to='/'>
-              <img src="./images/logo.png" />
+              <img src={Logo} />
             </Link>
           </div>
         </div>
