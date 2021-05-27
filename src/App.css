@@ -614,3 +614,52 @@ ul.CTAs a {
   font-size: 0.8rem;
   color: grey;
 }
+
+.c-omni-suggestion-item {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-top: 1px solid #e0e0e5;
+  line-height: 1.5;
+  color: black;
+  background: #F8FAFD;
+  cursor: pointer;
+  display: table;
+  zoom: 1;
+  width: 98.3%;
+}
+
+.c-omni-suggestion-item_media_item {
+  background-color: #f0f0f5;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.c-omni-suggestion-item__content {
+  width: 10000px;
+}
+.c-omni-suggestion-item__media {
+  padding-right: 15px;
+}
+.c-omni-suggestion-item_content, .c-omni-suggestion-itemmedia, .c-omni-suggestion-item_right {
+  display: table-cell;
+  vertical-align: middle;
+}
+.rounded-left-pill {
+  border-top-left-radius: 0.1875rem;
+  border-bottom-left-radius: 0.1875rem;
+}
+.abc{
+  position: absolute;
+  z-index: 1000;
+}
+.searchDiv{
+  display: none;
+  width: 87%;
+}
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}

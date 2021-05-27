@@ -8,6 +8,7 @@ import {useAlert} from 'react-alert'
 import MetaData from './layouts/MetaData'
 import ListReviews from './ListReviews'
 import { NEW_REVIEW_RESET } from '../constants/productConstant'
+import SliderImage from 'react-zoom-slider';
 const ProductDetails = ({match}) => {
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -15,8 +16,12 @@ const ProductDetails = ({match}) => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const {loading,error,product} = useSelector(state=>state.productDetails)
+    console.log(product)
     const { user } = useSelector(state => state.auth)
     const { error: reviewError, success } = useSelector(state => state.newReview)
+    if(product.images){
+        console.log(product.images)
+    }
     useEffect(() => {
         dispatch(getProductDetails(match.params.id))
 
@@ -105,7 +110,13 @@ const ProductDetails = ({match}) => {
 
         dispatch(newReview(formData));
     }
-
+    let data =[];
+    if(product.images){
+       
+         data =  product.images.map(img => ({ image: img.url}));
+         console.log(data)
+    }
+   
     return (
         <Fragment>
             {loading ? <Loader /> : (
@@ -113,13 +124,24 @@ const ProductDetails = ({match}) => {
                     <MetaData title={product.name} />
                     <div className="row d-flex justify-content-around">
                         <div className="col-12 col-lg-5 img-fluid" id="product_image">
-                            <Carousel pause='hover'>
+                             {
+                                product.images &&
+                                <SliderImage 
+                                    data={data} 
+                                    width="500px" 
+                                    showDescription={true} 
+                                    direction="right" 
+                                    className="d-block w-100"
+                                />
+                            } 
+                            
+                            {/* <Carousel pause='hover'>
                                 {product.images && product.images.map(image => (
                                     <Carousel.Item key={image.public_id}>
                                         <img className="d-block w-100" src={image.url} alt={product.title} />
                                     </Carousel.Item>
                                 ))}
-                            </Carousel>
+                            </Carousel> */}
                         </div>
 
                         <div className="col-12 col-lg-5 mt-5">
